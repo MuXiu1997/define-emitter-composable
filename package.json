@@ -1,0 +1,63 @@
+{
+  "name": "@muxiu1997/define-emitter-composable",
+  "version": "0.1.0-rc.1",
+  "description": "Creates a Vue composable function for providing or injecting a mitt event emitter.",
+  "source": "src/index.ts",
+  "module": "dist/define-emitter-composable.mjs",
+  "main": "dist/define-emitter-composable.js",
+  "jsnext:main": "dist/define-emitter-composable.mjs",
+  "umd:main": "dist/define-emitter-composable.umd.js",
+  "typings": "index.d.ts",
+  "exports": {
+    "types": "./index.d.ts",
+    "module": "./dist/define-emitter-composable.mjs",
+    "import": "./dist/define-emitter-composable.mjs",
+    "require": "./dist/define-emitter-composable.js",
+    "default": "./dist/define-emitter-composable.mjs"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "bundle": "microbundle -f es,cjs,umd"
+  },
+  "keywords": [
+    "vue",
+    "vue-demi",
+    "mitt",
+    "events",
+    "eventemitter",
+    "emitter"
+  ],
+  "author": "MuXiu1997 <muxiu1997@gmail.com> (https://github.com/MuXiu1997/)",
+  "repository": "MuXiu1997/define-emitter-composable",
+  "homepage": "https://github.com/MuXiu1997/define-emitter-composable",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "dependencies": {
+    "mitt": "^3.0.1",
+    "vue-demi": "latest"
+  },
+  "peerDependencies": {
+    "@vue/composition-api": "^1.0.0-rc.1",
+    "vue": "^2.0.0 || >=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@vue/composition-api": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "microbundle": "0.15.1",
+    "prettier": "2.7.1",
+    "typescript": "^5.3.2",
+    "vue": "^3.0.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "semi": false,
+    "printWidth": 120
+  }
+}
