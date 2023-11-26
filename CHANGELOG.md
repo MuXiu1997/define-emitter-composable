@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0-rc.4](https://github.com/MuXiu1997/vue-use-emitter/compare/v0.1.0-rc.3...v0.1.0-rc.4) (2023-11-26)
+
+
+### Features
+
+* set a default desc for the injectKey Symbol ([7afedd3](https://github.com/MuXiu1997/vue-use-emitter/commit/7afedd319ac191aff836e09fce9cf28ab7e156cd))
+
 ## [0.1.0-rc.3](https://github.com/MuXiu1997/vue-use-emitter/compare/v0.1.0-rc.2...v0.1.0-rc.3) (2023-11-26)
 
 
