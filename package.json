@@ -1,27 +1,13 @@
 {
   "name": "@muxiu1997/vue-use-emitter",
+  "type": "module",
   "version": "0.1.0-rc.3",
   "description": "A Vue composable event emitter library based on mitt, featuring an `autoOff` method for automatic call `off` on component unmount and dependency injection for ease of use, simplifying inter-component communication with minimal code.",
-  "type": "module",
   "source": "src/index.ts",
-  "module": "dist/vue-use-emitter.mjs",
-  "main": "dist/vue-use-emitter.js",
-  "jsnext:main": "dist/vue-use-emitter.mjs",
-  "umd:main": "dist/vue-use-emitter.umd.js",
-  "typings": "index.d.ts",
-  "exports": {
-    "types": "./index.d.ts",
-    "module": "./dist/vue-use-emitter.mjs",
-    "import": "./dist/vue-use-emitter.mjs",
-    "require": "./dist/vue-use-emitter.js",
-    "default": "./dist/vue-use-emitter.mjs"
-  },
-  "scripts": {
-    "lint": "eslint --fix .",
-    "test": "vitest --typecheck",
-    "coverage": "vitest --typecheck --coverage",
-    "bundle": "microbundle -f es,cjs,umd"
-  },
+  "author": "MuXiu1997 <muxiu1997@gmail.com> (https://github.com/MuXiu1997/)",
+  "license": "MIT",
+  "homepage": "https://github.com/MuXiu1997/vue-use-emitter",
+  "repository": "MuXiu1997/vue-use-emitter",
   "keywords": [
     "vue",
     "vue-demi",
@@ -30,17 +16,27 @@
     "eventemitter",
     "emitter"
   ],
-  "author": "MuXiu1997 <muxiu1997@gmail.com> (https://github.com/MuXiu1997/)",
-  "repository": "MuXiu1997/vue-use-emitter",
-  "homepage": "https://github.com/MuXiu1997/vue-use-emitter",
-  "license": "MIT",
+  "exports": {
+    "types": "./index.d.ts",
+    "module": "./dist/vue-use-emitter.mjs",
+    "import": "./dist/vue-use-emitter.mjs",
+    "require": "./dist/vue-use-emitter.js",
+    "default": "./dist/vue-use-emitter.mjs"
+  },
+  "main": "dist/vue-use-emitter.js",
+  "module": "dist/vue-use-emitter.mjs",
+  "jsnext:main": "dist/vue-use-emitter.mjs",
+  "umd:main": "dist/vue-use-emitter.umd.js",
+  "typings": "index.d.ts",
   "files": [
     "dist",
     "index.d.ts"
   ],
-  "dependencies": {
-    "mitt": "^3.0.1",
-    "vue-demi": "latest"
+  "scripts": {
+    "lint": "eslint --fix .",
+    "test": "vitest --typecheck",
+    "coverage": "vitest --typecheck --coverage",
+    "bundle": "microbundle -f es,cjs,umd"
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.0.0-rc.1",
@@ -50,6 +46,10 @@
     "@vue/composition-api": {
       "optional": true
     }
+  },
+  "dependencies": {
+    "mitt": "^3.0.1",
+    "vue-demi": "latest"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.1.0",
