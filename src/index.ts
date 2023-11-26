@@ -156,7 +156,7 @@ export default function defineEmitterComposable<Events extends Record<EventType,
 export default function defineEmitterComposable<Events extends Record<EventType, unknown>>(
   options: Partial<Options<Events>> = {},
 ): UseEmitter<AutoOffEmitter<Events> | undefined> {
-  const injectKey = options.key ?? (Symbol() as InjectionKey<AutoOffEmitter<Events>>)
+  const injectKey = options.key ?? (Symbol('vue-use-emitter') as InjectionKey<AutoOffEmitter<Events>>)
   return ((mode: UseEmitterMode = 'inject') => {
     if (mode === 'provide') {
       const emitter: AutoOffEmitter<Events> = wrapAutoOff(mitt())
