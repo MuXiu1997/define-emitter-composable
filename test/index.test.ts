@@ -2,7 +2,7 @@ import defineEmitterComposable, { wrapAutoOff } from '../src/index'
 
 import { mount } from '@vue/test-utils'
 import mitt from 'mitt'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, it, vi } from 'vitest'
 import { defineComponent, ref } from 'vue'
 
 import type { AutoOffEmitter, UseEmitter } from '../src'
@@ -22,7 +22,7 @@ export const useUndefinedEmitter = defineEmitterComposable<TestEvents>()
 export const useWithInjectDefaultEmitter = defineEmitterComposable<TestEvents>(optionWithInjectDefault)
 export const useWithThrowOnNoProviderEmitter = defineEmitterComposable<TestEvents>(optionWithThrowOnNoProvider)
 
-it('wrapAutoOff correct behavior', () => {
+it('wrapAutoOff correct behavior', ({ expect }) => {
   const emitter = wrapAutoOff(mitt<TestEvents>())
   expect(emitter).toHaveProperty('autoOff')
 })
@@ -57,14 +57,14 @@ describe.concurrent(`useEmitter('inject') correct behavior with no provider`, ()
   }
   // endregion Define Components
 
-  it('no options - inject mode return undefined', async () => {
+  it('no options - inject mode return undefined', async ({ expect }) => {
     const [ParentComponent, ChildComponent] = createComponent(useUndefinedEmitter)
     const wrapper = mount(ParentComponent)
     const emitter = wrapper.getComponent(ChildComponent).vm.emitter
     expect(emitter).toBeUndefined()
   })
 
-  it('with injects default - inject mode return default', async () => {
+  it('with injects default - inject mode return default', async ({ expect }) => {
     const spy = vi.spyOn(optionWithInjectDefault, 'injectDefault')
     const [ParentComponent, ChildComponent] = createComponent(useWithInjectDefaultEmitter)
     const wrapper = mount(ParentComponent)
@@ -73,14 +73,14 @@ describe.concurrent(`useEmitter('inject') correct behavior with no provider`, ()
     spy.mockRestore()
   })
 
-  it('with throw on no provider - inject mode throw error', async () => {
+  it('with throw on no provider - inject mode throw error', async ({ expect }) => {
     const [ParentComponent, _] = createComponent(useWithThrowOnNoProviderEmitter)
     expect(() => mount(ParentComponent)).toThrow(NoProviderError)
   })
 })
 
 // @vitest-environment jsdom
-describe('emitter autoOff correct behavior', async () => {
+describe.sequential('emitter autoOff correct behavior', async () => {
   const strOn = ref<string | undefined>(undefined)
   const strAutoOff = ref<string | undefined>(undefined)
 
@@ -126,18 +126,18 @@ describe('emitter autoOff correct behavior', async () => {
   const wrapper = mount(createComponent(useUndefinedEmitter))
   const emitter = wrapper.vm.emitter
 
-  it('the initial state of `strOn` and `strAutoOff` should be undefined', async () => {
+  it('the initial state of `strOn` and `strAutoOff` should be undefined', async ({ expect }) => {
     expect(strOn.value).toBeUndefined()
     expect(strAutoOff.value).toBeUndefined()
   })
 
-  it('emitting `foo` event updates `strOn` and `strAutoOff`', async () => {
+  it('emitting `foo` event updates `strOn` and `strAutoOff`', async ({ expect }) => {
     emitter.emit('foo', 'hello world')
     expect(strOn.value).eq('hello world')
     expect(strAutoOff.value).eq('hello world')
   })
 
-  it('emitting `foo` event after unmounting ChildComponent does not update `strAutoOff`, but it updates `strOn`', async () => {
+  it('emitting `foo` event after unmounting ChildComponent does not update `strAutoOff`, but it updates `strOn`', async ({ expect }) => {
     wrapper.vm.mountChild = false
     await wrapper.vm.$nextTick()
     emitter.emit('foo', 'hello world again')
