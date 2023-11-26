@@ -49,6 +49,10 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
         run: pnpm install
 
+      - name: Test
+        if: ${{ steps.release.outputs.release_created }}
+        run: pnpm run test --run
+
       - name: Bundle
         if: ${{ steps.release.outputs.release_created }}
         run: pnpm run bundle
