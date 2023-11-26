@@ -1,7 +1,7 @@
 {
   "name": "@muxiu1997/vue-use-emitter",
   "type": "module",
-  "version": "0.1.0-rc.4",
+  "version": "0.1.0-rc.5",
   "description": "A Vue composable event emitter library based on mitt, featuring an `autoOff` method for automatic call `off` on component unmount and dependency injection for ease of use, simplifying inter-component communication with minimal code.",
   "source": "src/index.ts",
   "author": "MuXiu1997 <muxiu1997@gmail.com> (https://github.com/MuXiu1997/)",

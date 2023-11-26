@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0-rc.5](https://github.com/MuXiu1997/vue-use-emitter/compare/v0.1.0-rc.4...v0.1.0-rc.5) (2023-11-26)
+
+
+### Tests
+
+* use expect from the local test context ([043d818](https://github.com/MuXiu1997/vue-use-emitter/commit/043d81899355841fd45af89e2a59744de1c13a33))
+
 ## [0.1.0-rc.4](https://github.com/MuXiu1997/vue-use-emitter/compare/v0.1.0-rc.3...v0.1.0-rc.4) (2023-11-26)
 
 
