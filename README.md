@@ -1,36 +1,47 @@
 # define-emitter-composable
-Creates a Vue composable function for providing or injecting a mitt event emitter.
+A Vue composable event emitter library based on mitt, featuring an `autoOff` method for automatic call `off` on component unmount and dependency injection for ease of use, simplifying inter-component communication with minimal code.
 
 ## Install
 ```bash
-$ npm install define-emitter-composable
+$ npm install @muxiu1997/vue-use-emitter
 ```
 
 ```js
-import defineEmitterComposable from 'define-emitter-composable'
+import defineEmitterComposable from '@muxiu1997/vue-use-emitter'
 ```
 
 ## Usage
-```js
-// Creates a composable function for providing or injecting a mitt event emitter.
-const useFooEmitter = defineEmitterComposable<{ bar: string, baz: number }>({ key: Symbol('bar') , throwOnNoProvider: () => new Error('No provider for bar') })
-const useBarEmitter = defineEmitterComposable()
-                                                                                                                                                               
-// In a Vue component setup
-setup() {
-  const fooEmitter = useFooEmitter('provide') // Provides an emitter
-  fooEmitter.on('bar', (payload) => {
-    // Handle the event
-  })
-                                                                                                                                                               
-  // Or inject an existing event emitter
-  const injectedBarEmitter = useFooEmitter() // Or `useFooEmitter('inject')`
-  injectedFooEmitter.emit('bar', 'bar')
-  injectedFooEmitter.emit('baz', 123)
-                                                                                                                                                               
-  // If `injectDefault` or `throwOnNoProvider` options are not set, the return value may be undefined
-  const undefinedEmitter = useBarEmitter() // undefined
-}
+```typescript
+// Defining an emitter composable
+const useMyEmitter = defineEmitterComposable<MyEvents>({ key: 'myEmitterKey' });
+
+// Providing an emitter at the parent component
+const parentComponent = defineComponent({
+  setup() {
+    const myEmitter = useMyEmitter('provide');
+    myEmitter.emit('myEvent', 'Hello world!');
+  }
+});
+
+// Injecting an emitter in a child component
+const childComponent = defineComponent({
+  setup() {
+    const myEmitter = defineEmitterComposable<MyEvents>({ key: 'myEmitterKey' })('inject');
+    myEmitter.autoOff('myEvent', () => console.log('Event received'));
+  }
+});
+
+// Using with default emitter
+const useDefaultEmitter = defineEmitterComposable<MyEvents>({
+  key: 'myEmitterKey',
+  injectDefault: () => wrapAutoOff(mitt())
+})();
+
+// Throwing error when no provider is found
+const useStrictEmitter = defineEmitterComposable<MyEvents>({
+  key: 'myEmitterKey',
+  throwOnNoProvider: () => new Error('Emitter not found')
+})();
 ```
 
 ## License
