@@ -2,8 +2,8 @@
 
 import antfu from '@antfu/eslint-config'
 
-export default await antfu(
-  {},
+/** @type {import('@antfu/eslint-config').UserConfigItem[]} */
+const overrides = [
   {
     files: ['**/*.js', '**/*.ts', '**/*.vue'],
     rules: {
@@ -27,6 +27,14 @@ export default await antfu(
           },
         },
       ],
+      'curly': [
+        'error',
+        'multi-line',
+        'consistent',
+      ],
+      'antfu/if-newline': [
+        'off',
+      ],
     },
   },
   {
@@ -41,4 +49,9 @@ export default await antfu(
       ],
     },
   },
+]
+
+export default await antfu(
+  {},
+  ...overrides,
 )
