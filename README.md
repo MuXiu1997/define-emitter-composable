@@ -1,4 +1,4 @@
-# define-emitter-composable
+# vue-use-emitter
 A Vue composable event emitter library based on mitt, featuring an `autoOff` method for automatic call `off` on component unmount and dependency injection for ease of use, simplifying inter-component communication with minimal code.
 
 ## Install
