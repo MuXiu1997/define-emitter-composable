@@ -1,11 +1,15 @@
-import { AutoOffEmitter } from '../src'
-import { expectTypeOf } from 'vitest'
 import {
-  TestEvents,
   useUndefinedEmitter,
   useWithInjectDefaultEmitter,
   useWithThrowOnNoProviderEmitter,
 } from './index.test'
+
+import { expectTypeOf } from 'vitest'
+
+import type {
+  TestEvents,
+} from './index.test'
+import type { AutoOffEmitter } from '../src'
 
 describe.concurrent('useEmitter return correct type with different options', () => {
   test('No options - inject mode maybe return undefined', async () => {
