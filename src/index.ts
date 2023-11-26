@@ -1,5 +1,8 @@
-import mitt, { Emitter, EventType, Handler, WildcardHandler } from 'mitt'
-import { getCurrentInstance, inject, InjectionKey, onUnmounted, provide } from 'vue-demi'
+import mitt from 'mitt'
+import { getCurrentInstance, inject, onUnmounted, provide } from 'vue-demi'
+
+import type { Emitter, EventType, Handler, WildcardHandler } from 'mitt'
+import type { InjectionKey } from 'vue-demi'
 
 /**
  * Extends the Emitter interface to include an `autoOff` method.
@@ -21,11 +24,11 @@ export function wrapAutoOff<Events extends Record<EventType, unknown>>(
   type GenericEventHandler = Handler<Events[keyof Events]> | WildcardHandler<Events>
   return Object.assign(emitter, {
     autoOff<Key extends keyof Events>(type: Key, handler: GenericEventHandler) {
-      /* @ts-ignore */
+      /* @ts-expect-error - they are handled at runtime */
       emitter.on(type, handler)
       if (getCurrentInstance()) {
         onUnmounted(() => {
-          /* @ts-ignore */
+          /* @ts-expect-error - they are handled at runtime */
           emitter.off(type, handler)
         })
       }
@@ -33,11 +36,11 @@ export function wrapAutoOff<Events extends Record<EventType, unknown>>(
   })
 }
 
-export type WithInjectDefault<Events extends Record<EventType, unknown>> = {
+export interface WithInjectDefault<Events extends Record<EventType, unknown>> {
   injectDefault: AutoOffEmitter<Events> | (() => AutoOffEmitter<Events>)
 }
 
-export type WithThrowOnNoProvider = {
+export interface WithThrowOnNoProvider {
   throwOnNoProvider: () => Error
 }
 
