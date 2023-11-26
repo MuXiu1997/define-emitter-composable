@@ -161,15 +161,19 @@ export default function defineEmitterComposable<Events extends Record<EventType,
     if (mode === 'provide') {
       const emitter: AutoOffEmitter<Events> = wrapAutoOff(mitt())
       provide(injectKey, emitter)
+
       return emitter
     }
 
-    if ('injectDefault' in options && options.injectDefault != null)
+    if ('injectDefault' in options && options.injectDefault != null) {
       return inject(injectKey, options.injectDefault, true)
+    }
 
     const emitter = inject(injectKey)
-    if (emitter == null && 'throwOnNoProvider' in options && options.throwOnNoProvider != null)
+    if (emitter == null && 'throwOnNoProvider' in options && options.throwOnNoProvider != null) {
       throw options.throwOnNoProvider()
+    }
+
     return emitter
   }) as UseEmitter<AutoOffEmitter<Events> | undefined>
 }
