@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0-rc.3](https://github.com/MuXiu1997/vue-use-emitter/compare/v0.1.0-rc.2...v0.1.0-rc.3) (2023-11-26)
+
+
+### Continuous Integration
+
+* update release workflow for test ([70db2e3](https://github.com/MuXiu1997/vue-use-emitter/commit/70db2e3bd68f19ce9325ac9e68c2131a423c4cb3))
+
 ## [0.1.0-rc.2](https://github.com/MuXiu1997/vue-use-emitter/compare/v0.1.0-rc.1...v0.1.0-rc.2) (2023-11-26)
 
 
