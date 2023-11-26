@@ -1,8 +1,40 @@
-import mitt, { Emitter, EventType } from 'mitt'
-import { InjectionKey, provide, inject } from 'vue-demi'
+import mitt, { Emitter, EventType, Handler, WildcardHandler } from 'mitt'
+import { getCurrentInstance, inject, InjectionKey, onUnmounted, provide } from 'vue-demi'
+
+/**
+ * Extends the Emitter interface to include an `autoOff` method.
+ * This method allows for automatic unsubscription from events when the Vue component is unmounted.
+ */
+export interface AutoOffEmitter<Events extends Record<EventType, unknown>> extends Emitter<Events> {
+  autoOff<Key extends keyof Events>(type: Key, handler: Handler<Events[Key]>): void
+
+  autoOff(type: '*', handler: WildcardHandler<Events>): void
+}
+
+/**
+ * Wraps a given emitter with additional functionality, enabling the `autoOff` method.
+ * This method allows for automatic unsubscription from events when the Vue component is unmounted.
+ */
+export function wrapAutoOff<Events extends Record<EventType, unknown>>(
+  emitter: Emitter<Events>,
+): AutoOffEmitter<Events> {
+  type GenericEventHandler = Handler<Events[keyof Events]> | WildcardHandler<Events>
+  return Object.assign(emitter, {
+    autoOff<Key extends keyof Events>(type: Key, handler: GenericEventHandler) {
+      /* @ts-ignore */
+      emitter.on(type, handler)
+      if (getCurrentInstance()) {
+        onUnmounted(() => {
+          /* @ts-ignore */
+          emitter.off(type, handler)
+        })
+      }
+    },
+  })
+}
 
 export type WithInjectDefault<Events extends Record<EventType, unknown>> = {
-  injectDefault: Emitter<Events> | (() => Emitter<Events>)
+  injectDefault: AutoOffEmitter<Events> | (() => AutoOffEmitter<Events>)
 }
 
 export type WithThrowOnNoProvider = {
@@ -10,88 +42,121 @@ export type WithThrowOnNoProvider = {
 }
 
 export type Options<Events extends Record<EventType, unknown>> = {
-  key?: InjectionKey<Emitter<Events>> | string
+  key?: InjectionKey<AutoOffEmitter<Events>> | string
 } & (WithInjectDefault<Events> | WithThrowOnNoProvider)
 
-export type ComposableMode = 'inject' | 'provide'
+export type UseEmitterMode = 'inject' | 'provide'
 
 /**
- * Creates a Vue composable function for providing or injecting a mitt event emitter.
+ * A composable for using the AutoOffEmitter in a Vue component. It can be used in 'inject' or 'provide' mode.
+ */
+export interface UseEmitter<EE extends AutoOffEmitter<any> | undefined> {
+  (mode: 'provide'): NonNullable<EE>
+
+  (mode: 'inject'): EE
+
+  (): EE
+}
+
+/**
+ * Defines a composable for Vue that provides or injects an event emitter.
  *
- * @template Events - The mitt events.
+ * @param options - Configuration options for the composable.
+ * @param options.key - An optional InjectionKey or string to uniquely identify the emitter in the Vue application's dependency injection system.
+ * @param options.injectDefault - An optional default emitter to be used when none is provided. Can be either an instance of AutoOffEmitter or a factory function returning one.
+ * @param options.throwOnNoProvider - An optional function that returns an error to be thrown when no emitter is provided, and no default is specified.
  *
- * @param [options] - Optional configuration options.
- * @param {InjectionKey<Emitter<Events>> | string} [options.key] - The injection key to use for providing or injecting the event emitter.
- * @param {Emitter<Events> | (() => Emitter<Events>)} [options.injectDefault] - The default event emitter to inject if no provider is found.
- * @param {() => Error} [options.throwOnNoProvider] - A function that throws an error if no provider is found.
- * @returns {(mode?: ComposableMode) => Emitter<Events>} - A composable function that can be used to provide or inject an event emitter based on the mode.
+ * @returns A UseEmitter function that can be called with 'provide' or 'inject' to either provide a new AutoOffEmitter instance to the Vue component tree, or inject an existing one from a parent component. If neither 'provide' nor 'inject' is specified, it defaults to 'inject'.
  *
  * @example
- * // Creates a composable function for providing or injecting a mitt event emitter.
- * const useFooEmitter = defineEmitterComposable<{ bar: string, baz: number }>({ key: Symbol('bar') , throwOnNoProvider: () => new Error('No provider for bar') })
- * const useBarEmitter = defineEmitterComposable()
+ * // Defining an emitter composable
+ * const useMyEmitter = defineEmitterComposable<MyEvents>({ key: 'myEmitterKey' });
  *
- * // In a Vue component setup
- * setup() {
- *   const fooEmitter = useFooEmitter('provide') // Provides an emitter
- *   fooEmitter.on('bar', (payload) => {
- *     // Handle the event
- *   })
+ * // Providing an emitter at the parent component
+ * const parentComponent = defineComponent({
+ *   setup() {
+ *     const myEmitter = useMyEmitter('provide');
+ *     myEmitter.emit('myEvent', 'Hello world!');
+ *   }
+ * });
  *
- *   // Or inject an existing event emitter
- *   const injectedBarEmitter = useFooEmitter() // Or `useFooEmitter('inject')`
- *   injectedFooEmitter.emit('bar', 'bar')
- *   injectedFooEmitter.emit('baz', 123)
+ * // Injecting an emitter in a child component
+ * const childComponent = defineComponent({
+ *   setup() {
+ *     const myEmitter = defineEmitterComposable<MyEvents>({ key: 'myEmitterKey' })('inject');
+ *     myEmitter.autoOff('myEvent', () => console.log('Event received'));
+ *   }
+ * });
  *
- *   // If `injectDefault` or `throwOnNoProvider` options are not set, the return value may be undefined
- *   const undefinedEmitter = useBarEmitter() // undefined
- * }
+ * // Using with default emitter
+ * const useDefaultEmitter = defineEmitterComposable<MyEvents>({
+ *   key: 'myEmitterKey',
+ *   injectDefault: () => wrapAutoOff(mitt())
+ * })();
+ *
+ * // Throwing error when no provider is found
+ * const useStrictEmitter = defineEmitterComposable<MyEvents>({
+ *   key: 'myEmitterKey',
+ *   throwOnNoProvider: () => new Error('Emitter not found')
+ * })();
  */
 export default function defineEmitterComposable<Events extends Record<EventType, unknown>>(
   options: Options<Events>,
-): (mode?: ComposableMode) => Emitter<Events>
+): UseEmitter<AutoOffEmitter<Events>>
 
 /**
- * Creates a Vue composable function for providing or injecting a mitt event emitter.
+ * Defines a composable for Vue that provides or injects an event emitter.
  *
- * @template Events - The mitt events.
+ * @param options - Configuration options for the composable.
+ * @param options.key - An optional InjectionKey or string to uniquely identify the emitter in the Vue application's dependency injection system.
+ * @param options.injectDefault - An optional default emitter to be used when none is provided. Can be either an instance of AutoOffEmitter or a factory function returning one.
+ * @param options.throwOnNoProvider - An optional function that returns an error to be thrown when no emitter is provided, and no default is specified.
  *
- * @param [options] - Optional configuration options.
- * @param {InjectionKey<Emitter<Events>> | string} [options.key] - The injection key to use for providing or injecting the event emitter.
- * @returns {(mode?: ComposableMode) => Emitter<Events> | undefined} - A composable function that can be used to provide or inject an event emitter based on the mode.
+ * @returns A UseEmitter function that can be called with 'provide' or 'inject' to either provide a new AutoOffEmitter instance to the Vue component tree, or inject an existing one from a parent component. If neither 'provide' nor 'inject' is specified, it defaults to 'inject'.
  *
  * @example
- * // Creates a composable function for providing or injecting a mitt event emitter.
- * const useFooEmitter = defineEmitterComposable<{ bar: string, baz: number }>({ key: Symbol('bar') , throwOnNoProvider: () => new Error('No provider for bar') })
- * const useBarEmitter = defineEmitterComposable()
+ * // Defining an emitter composable
+ * const useMyEmitter = defineEmitterComposable<MyEvents>({ key: 'myEmitterKey' });
  *
- * // In a Vue component setup
- * setup() {
- *   const fooEmitter = useFooEmitter('provide') // Provides an emitter
- *   fooEmitter.on('bar', (payload) => {
- *     // Handle the event
- *   })
+ * // Providing an emitter at the parent component
+ * const parentComponent = defineComponent({
+ *   setup() {
+ *     const myEmitter = useMyEmitter('provide');
+ *     myEmitter.emit('myEvent', 'Hello world!');
+ *   }
+ * });
  *
- *   // Or inject an existing event emitter
- *   const injectedBarEmitter = useFooEmitter() // Or `useFooEmitter('inject')`
- *   injectedFooEmitter.emit('bar', 'bar')
- *   injectedFooEmitter.emit('baz', 123)
+ * // Injecting an emitter in a child component
+ * const childComponent = defineComponent({
+ *   setup() {
+ *     const myEmitter = defineEmitterComposable<MyEvents>({ key: 'myEmitterKey' })('inject');
+ *     myEmitter.autoOff('myEvent', () => console.log('Event received'));
+ *   }
+ * });
  *
- *   // If `injectDefault` or `throwOnNoProvider` options are not set, the return value may be undefined
- *   const undefinedEmitter = useBarEmitter() // undefined
- * }
+ * // Using with default emitter
+ * const useDefaultEmitter = defineEmitterComposable<MyEvents>({
+ *   key: 'myEmitterKey',
+ *   injectDefault: () => wrapAutoOff(mitt())
+ * })();
+ *
+ * // Throwing error when no provider is found
+ * const useStrictEmitter = defineEmitterComposable<MyEvents>({
+ *   key: 'myEmitterKey',
+ *   throwOnNoProvider: () => new Error('Emitter not found')
+ * })();
  */
 export default function defineEmitterComposable<Events extends Record<EventType, unknown>>(
   options?: Pick<Options<Events>, 'key'>,
-): (mode?: ComposableMode) => Emitter<Events> | undefined
+): UseEmitter<AutoOffEmitter<Events> | undefined>
 
 export default function defineEmitterComposable<Events extends Record<EventType, unknown>>(
   options: Partial<Options<Events>> = {},
-): (mode?: ComposableMode) => Emitter<Events> | undefined {
-  const injectKey = options.key ?? (Symbol() as InjectionKey<Emitter<Events>>)
-  return (mode: ComposableMode = 'inject') => {
+): UseEmitter<AutoOffEmitter<Events> | undefined> {
+  const injectKey = options.key ?? (Symbol() as InjectionKey<AutoOffEmitter<Events>>)
+  return ((mode: UseEmitterMode = 'inject') => {
     if (mode === 'provide') {
-      const emitter: Emitter<Events> = mitt()
+      const emitter: AutoOffEmitter<Events> = wrapAutoOff(mitt())
       provide(injectKey, emitter)
       return emitter
     }
@@ -103,5 +168,5 @@ export default function defineEmitterComposable<Events extends Record<EventType,
     if (emitter == null && 'throwOnNoProvider' in options && options.throwOnNoProvider != null)
       throw options.throwOnNoProvider()
     return emitter
-  }
+  }) as UseEmitter<AutoOffEmitter<Events> | undefined>
 }
