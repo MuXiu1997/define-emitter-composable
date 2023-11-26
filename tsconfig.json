@@ -9,10 +9,13 @@
 		"declaration": true,
 		"moduleResolution": "node",
 		"skipLibCheck": true,
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"types": [
+			"vitest/globals"
+		]
 	},
 	"include": [
 		"src/*.ts",
-		"test/*.ts"
+		"test/*.ts",
 	]
 }
