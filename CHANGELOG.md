@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0-rc.6](https://github.com/MuXiu1997/vue-use-emitter/compare/v0.1.0-rc.5...v0.1.0-rc.6) (2023-11-27)
+
+
+### Build System
+
+* bundle by vite ([5abdb6c](https://github.com/MuXiu1997/vue-use-emitter/commit/5abdb6cb90065da5d94e0b2f42286ba02e9de63f))
+
 ## [0.1.0-rc.5](https://github.com/MuXiu1997/vue-use-emitter/compare/v0.1.0-rc.4...v0.1.0-rc.5) (2023-11-26)
 
 
