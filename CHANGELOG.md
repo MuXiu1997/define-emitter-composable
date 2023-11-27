@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0-rc.7](https://github.com/MuXiu1997/vue-use-emitter/compare/v0.1.0-rc.6...v0.1.0-rc.7) (2023-11-27)
+
+
+### Features
+
+* based on @muxiu1997/vue-easy-di ([dd59128](https://github.com/MuXiu1997/vue-use-emitter/commit/dd59128289e8ab758c63a0be9e5f9a1a4a6534e7))
+
 ## [0.1.0-rc.6](https://github.com/MuXiu1997/vue-use-emitter/compare/v0.1.0-rc.5...v0.1.0-rc.6) (2023-11-27)
 
 
