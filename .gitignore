@@ -132,6 +132,6 @@ dist
 # vitest
 tsconfig.vitest-temp.json
 
-## Microbundle generated
+# vite build
 ./dist
 ./index.d.ts

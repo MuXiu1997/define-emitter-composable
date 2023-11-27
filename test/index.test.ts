@@ -1,12 +1,12 @@
-import defineEmitterComposable, { wrapAutoOff } from '../src/index'
-
 import { mount } from '@vue/test-utils'
 import mitt from 'mitt'
 import { describe, it, vi } from 'vitest'
 import { defineComponent, ref } from 'vue'
 
-import type { AutoOffEmitter, UseEmitter } from '../src'
+import defineEmitterComposable, { wrapAutoOff } from '~'
+
 import type { EventType } from 'mitt'
+import type { AutoOffEmitter, UseEmitter } from '~'
 
 export interface TestEvents extends Record<EventType, unknown> {
   foo: string
