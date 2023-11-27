@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@muxiu1997/vue-easy-di':
+    specifier: ^0.1.0-rc.1
+    version: 0.1.0-rc.1(@vue/composition-api@1.7.2)(vue@3.3.7)
   '@vue/composition-api':
     specifier: ^1.0.0-rc.1
     version: 1.7.2(vue@3.3.7)
@@ -19,6 +22,9 @@ devDependencies:
   '@antfu/eslint-config':
     specifier: ^2.1.0
     version: 2.1.0(eslint@8.54.0)(typescript@5.2.2)(vitest@1.0.0-beta.5)
+  '@types/node':
+    specifier: '>=20.0.0'
+    version: 20.5.6
   '@vitest/coverage-v8':
     specifier: ^1.0.0-beta.5
     version: 1.0.0-beta.5(vitest@1.0.0-beta.5)
@@ -42,13 +48,13 @@ devDependencies:
     version: 5.2.2
   vite:
     specifier: ^5.0.2
-    version: 5.0.2
+    version: 5.0.2(@types/node@20.5.6)
   vite-plugin-dts:
     specifier: ^3.6.3
-    version: 3.6.3(typescript@5.2.2)(vite@5.0.2)
+    version: 3.6.3(@types/node@20.5.6)(typescript@5.2.2)(vite@5.0.2)
   vitest:
     specifier: ^1.0.0-beta.5
-    version: 1.0.0-beta.5(@vitest/ui@1.0.0-beta.5)(jsdom@20.0.0)
+    version: 1.0.0-beta.5(@types/node@20.5.6)(@vitest/ui@1.0.0-beta.5)(jsdom@20.0.0)
   vue:
     specifier: ^3.0.0
     version: 3.3.7(typescript@5.2.2)
@@ -535,24 +541,24 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@microsoft/api-extractor-model@7.28.2:
+  /@microsoft/api-extractor-model@7.28.2(@types/node@20.5.6):
     resolution: {integrity: sha512-vkojrM2fo3q4n4oPh4uUZdjJ2DxQ2+RnDQL/xhTWSRUNPF6P4QyrvY357HBxbnltKcYu+nNNolVqc6TIGQ73Ig==}
     dependencies:
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.61.0
+      '@rushstack/node-core-library': 3.61.0(@types/node@20.5.6)
     transitivePeerDependencies:
       - '@types/node'
     dev: true
 
-  /@microsoft/api-extractor@7.38.3:
+  /@microsoft/api-extractor@7.38.3(@types/node@20.5.6):
     resolution: {integrity: sha512-xt9iYyC5f39281j77JTA9C3ISJpW1XWkCcnw+2vM78CPnro6KhPfwQdPDfwS5JCPNuq0grm8cMdPUOPvrchDWw==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor-model': 7.28.2
+      '@microsoft/api-extractor-model': 7.28.2(@types/node@20.5.6)
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.61.0
+      '@rushstack/node-core-library': 3.61.0(@types/node@20.5.6)
       '@rushstack/rig-package': 0.5.1
       '@rushstack/ts-command-line': 4.17.1
       colors: 1.2.5
@@ -577,6 +583,20 @@ packages:
   /@microsoft/tsdoc@0.14.2:
     resolution: {integrity: sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==}
     dev: true
+
+  /@muxiu1997/vue-easy-di@0.1.0-rc.1(@vue/composition-api@1.7.2)(vue@3.3.7):
+    resolution: {integrity: sha512-ypnLPzAzs3zWVNExEd0e/lStNnJN3y3Y/G+BdQ/ZNcHQtwPfP/3dCJ8UKyHeGn1udMsNw8KR0CF5qGAI/5xXlQ==}
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^2.0.0 || >=3.0.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      '@vue/composition-api': 1.7.2(vue@3.3.7)
+      vue: 3.3.7(typescript@5.2.2)
+      vue-demi: 0.14.6(@vue/composition-api@1.7.2)(vue@3.3.7)
+    dev: false
 
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -724,7 +744,7 @@ packages:
     dev: true
     optional: true
 
-  /@rushstack/node-core-library@3.61.0:
+  /@rushstack/node-core-library@3.61.0(@types/node@20.5.6):
     resolution: {integrity: sha512-tdOjdErme+/YOu4gPed3sFS72GhtWCgNV9oDsHDnoLY5oDfwjKUc9Z+JOZZ37uAxcm/OCahDHfuu2ugqrfWAVQ==}
     peerDependencies:
       '@types/node': '*'
@@ -732,6 +752,7 @@ packages:
       '@types/node':
         optional: true
     dependencies:
+      '@types/node': 20.5.6
       colors: 1.2.5
       fs-extra: 7.0.1
       import-lazy: 4.0.0
@@ -841,6 +862,10 @@ packages:
     resolution: {integrity: sha512-LnwD+mUEfxWMa1QpDraczIn6k0Ee3SMicuYSSzS6ZYl2gKS09EClnJYGd8Du6rfc5r/GZEk5o1mRb8TaTj03sQ==}
     dependencies:
       '@types/unist': 2.0.10
+    dev: true
+
+  /@types/node@20.5.6:
+    resolution: {integrity: sha512-Gi5wRGPbbyOTX+4Y2iULQ27oUPrefaB0PxGQJnfyWN3kvEDGM3mIB5M/gQLmitZf7A9FmLeaqxD3L1CXpm3VKQ==}
     dev: true
 
   /@types/normalize-package-data@2.4.1:
@@ -1007,7 +1032,7 @@ packages:
       std-env: 3.5.0
       test-exclude: 6.0.0
       v8-to-istanbul: 9.2.0
-      vitest: 1.0.0-beta.5(@vitest/ui@1.0.0-beta.5)(jsdom@20.0.0)
+      vitest: 1.0.0-beta.5(@types/node@20.5.6)(@vitest/ui@1.0.0-beta.5)(jsdom@20.0.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1054,7 +1079,7 @@ packages:
       pathe: 1.1.1
       picocolors: 1.0.0
       sirv: 2.0.3
-      vitest: 1.0.0-beta.5(@vitest/ui@1.0.0-beta.5)(jsdom@20.0.0)
+      vitest: 1.0.0-beta.5(@types/node@20.5.6)(@vitest/ui@1.0.0-beta.5)(jsdom@20.0.0)
     dev: true
 
   /@vitest/utils@1.0.0-beta.5:
@@ -1988,7 +2013,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 6.12.0(@typescript-eslint/parser@6.12.0)(eslint@8.54.0)(typescript@5.2.2)
       '@typescript-eslint/utils': 6.12.0(eslint@8.54.0)(typescript@5.2.2)
       eslint: 8.54.0
-      vitest: 1.0.0-beta.5(@vitest/ui@1.0.0-beta.5)(jsdom@20.0.0)
+      vitest: 1.0.0-beta.5(@types/node@20.5.6)(@vitest/ui@1.0.0-beta.5)(jsdom@20.0.0)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -3709,7 +3734,7 @@ packages:
     engines: {node: '>= 0.10'}
     dev: true
 
-  /vite-node@1.0.0-beta.5:
+  /vite-node@1.0.0-beta.5(@types/node@20.5.6):
     resolution: {integrity: sha512-iXm+GTJbR9R6V/bCM1+LQqIohL/tncZVNGIcTtzpYThBD8yiTkDPvEjy1Mf7KFACtG3qY/0VDMrkuMtqG/JFhg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -3718,7 +3743,7 @@ packages:
       debug: 4.3.4
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 5.0.2
+      vite: 5.0.2(@types/node@20.5.6)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -3730,7 +3755,7 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-dts@3.6.3(typescript@5.2.2)(vite@5.0.2):
+  /vite-plugin-dts@3.6.3(@types/node@20.5.6)(typescript@5.2.2)(vite@5.0.2):
     resolution: {integrity: sha512-NyRvgobl15rYj65coi/gH7UAEH+CpSjh539DbGb40DfOTZSvDLNYTzc8CK4460W+LqXuMK7+U3JAxRB3ksrNPw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -3740,13 +3765,13 @@ packages:
       vite:
         optional: true
     dependencies:
-      '@microsoft/api-extractor': 7.38.3
+      '@microsoft/api-extractor': 7.38.3(@types/node@20.5.6)
       '@rollup/pluginutils': 5.0.5
       '@vue/language-core': 1.8.22(typescript@5.2.2)
       debug: 4.3.4
       kolorist: 1.8.0
       typescript: 5.2.2
-      vite: 5.0.2
+      vite: 5.0.2(@types/node@20.5.6)
       vue-tsc: 1.8.22(typescript@5.2.2)
     transitivePeerDependencies:
       - '@types/node'
@@ -3754,7 +3779,7 @@ packages:
       - supports-color
     dev: true
 
-  /vite@5.0.2:
+  /vite@5.0.2(@types/node@20.5.6):
     resolution: {integrity: sha512-6CCq1CAJCNM1ya2ZZA7+jS2KgnhbzvxakmlIjN24cF/PXhRMzpM/z8QgsVJA/Dm5fWUWnVEsmtBoMhmerPxT0g==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -3782,6 +3807,7 @@ packages:
       terser:
         optional: true
     dependencies:
+      '@types/node': 20.5.6
       esbuild: 0.19.5
       postcss: 8.4.31
       rollup: 4.2.0
@@ -3789,7 +3815,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitest@1.0.0-beta.5(@vitest/ui@1.0.0-beta.5)(jsdom@20.0.0):
+  /vitest@1.0.0-beta.5(@types/node@20.5.6)(@vitest/ui@1.0.0-beta.5)(jsdom@20.0.0):
     resolution: {integrity: sha512-wmrGmXMKysR+JBvIwy0COgLrRSsZTR00dN+IpWBxGC4ACF5Mt/uYyrPLJZ0ixK4P3bxI16vd92JXMsuGnm9gQQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -3814,6 +3840,7 @@ packages:
       jsdom:
         optional: true
     dependencies:
+      '@types/node': 20.5.6
       '@vitest/expect': 1.0.0-beta.5
       '@vitest/runner': 1.0.0-beta.5
       '@vitest/snapshot': 1.0.0-beta.5
@@ -3834,8 +3861,8 @@ packages:
       strip-literal: 1.3.0
       tinybench: 2.5.1
       tinypool: 0.8.1
-      vite: 5.0.2
-      vite-node: 1.0.0-beta.5
+      vite: 5.0.2(@types/node@20.5.6)
+      vite-node: 1.0.0-beta.5(@types/node@20.5.6)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
@@ -3853,6 +3880,22 @@ packages:
 
   /vue-demi@0.13.11(@vue/composition-api@1.7.2)(vue@3.3.7):
     resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      '@vue/composition-api': 1.7.2(vue@3.3.7)
+      vue: 3.3.7(typescript@5.2.2)
+    dev: false
+
+  /vue-demi@0.14.6(@vue/composition-api@1.7.2)(vue@3.3.7):
+    resolution: {integrity: sha512-8QA7wrYSHKaYgUxDA5ZC24w+eHm3sYCbp0EzcDwKqN3p6HqtTCGR/GVsPyZW92unff4UlcSh++lmqDWN3ZIq4w==}
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true

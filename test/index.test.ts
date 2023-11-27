@@ -29,7 +29,7 @@ it('wrapAutoOff correct behavior', ({ expect }) => {
 
 describe.concurrent(`useEmitter('inject') correct behavior with no provider`, () => {
   // region Define Components
-  function createComponent<UE extends UseEmitter<AutoOffEmitter<TestEvents> | undefined>>(useEmitter: UE) {
+  function createComponent<UE extends UseEmitter<AutoOffEmitter<TestEvents> | undefined> | UseEmitter<AutoOffEmitter<TestEvents>>>(useEmitter: UE) {
     const ChildComponent = defineComponent({
       setup() {
         const emitter = useEmitter()

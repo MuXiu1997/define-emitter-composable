@@ -1,8 +1,11 @@
+import defineUseDependencyInjection from '@muxiu1997/vue-easy-di'
 import mitt from 'mitt'
-import { getCurrentInstance, inject, onUnmounted, provide } from 'vue-demi'
+import { getCurrentInstance, onUnmounted } from 'vue-demi'
 
+import type { Options as DIOptions, UseInitiatedDependencyInjection } from '@muxiu1997/vue-easy-di'
 import type { Emitter, EventType, Handler, WildcardHandler } from 'mitt'
-import type { InjectionKey } from 'vue-demi'
+
+export type Options<Events extends Record<EventType, unknown>> = DIOptions<AutoOffEmitter<Events>>
 
 /**
  * Extends the Emitter interface to include an `autoOff` method.
@@ -36,30 +39,10 @@ export function wrapAutoOff<Events extends Record<EventType, unknown>>(
   })
 }
 
-export interface WithInjectDefault<Events extends Record<EventType, unknown>> {
-  injectDefault: AutoOffEmitter<Events> | (() => AutoOffEmitter<Events>)
-}
-
-export interface WithThrowOnNoProvider {
-  throwOnNoProvider: () => Error
-}
-
-export type Options<Events extends Record<EventType, unknown>> = {
-  key?: InjectionKey<AutoOffEmitter<Events>> | string
-} & (WithInjectDefault<Events> | WithThrowOnNoProvider)
-
-export type UseEmitterMode = 'inject' | 'provide'
-
 /**
  * A composable for using the AutoOffEmitter in a Vue component. It can be used in 'inject' or 'provide' mode.
  */
-export interface UseEmitter<EE extends AutoOffEmitter<any> | undefined> {
-  (mode: 'provide'): NonNullable<EE>
-
-  (mode: 'inject'): EE
-
-  (): EE
-}
+export type UseEmitter<EE extends AutoOffEmitter<any> | undefined> = UseInitiatedDependencyInjection<EE>
 
 /**
  * Defines a composable for Vue that provides or injects an event emitter.
@@ -155,25 +138,10 @@ export default function defineEmitterComposable<Events extends Record<EventType,
 
 export default function defineEmitterComposable<Events extends Record<EventType, unknown>>(
   options: Partial<Options<Events>> = {},
-): UseEmitter<AutoOffEmitter<Events> | undefined> {
-  const injectKey = options.key ?? (Symbol('vue-use-emitter') as InjectionKey<AutoOffEmitter<Events>>)
-  return ((mode: UseEmitterMode = 'inject') => {
-    if (mode === 'provide') {
-      const emitter: AutoOffEmitter<Events> = wrapAutoOff(mitt())
-      provide(injectKey, emitter)
-
-      return emitter
-    }
-
-    if ('injectDefault' in options && options.injectDefault != null) {
-      return inject(injectKey, options.injectDefault, true)
-    }
-
-    const emitter = inject(injectKey)
-    if (emitter == null && 'throwOnNoProvider' in options && options.throwOnNoProvider != null) {
-      throw options.throwOnNoProvider()
-    }
-
-    return emitter
-  }) as UseEmitter<AutoOffEmitter<Events> | undefined>
+): UseEmitter<AutoOffEmitter<Events> | undefined> | UseEmitter<AutoOffEmitter<Events>> {
+  if (options.key == null) options.key = Symbol('vue-use-emitter')
+  return defineUseDependencyInjection(
+    () => wrapAutoOff(mitt()),
+    options,
+  )
 }
