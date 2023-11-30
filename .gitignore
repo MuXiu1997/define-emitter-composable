@@ -133,5 +133,5 @@ dist
 tsconfig.vitest-temp.json
 
 # vite build
-./dist
-./index.d.ts
+dist
+index.d.ts
