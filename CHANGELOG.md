@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0-rc.8](https://github.com/MuXiu1997/vue-use-emitter/compare/v0.1.0-rc.7...v0.1.0-rc.8) (2023-11-30)
+
+
+### Bug Fixes
+
+* `@muxiu1997/vue-easy-di` bug fixed in 0.1.0-rc.2 ([79a8894](https://github.com/MuXiu1997/vue-use-emitter/commit/79a8894559e90a13ff96a97e171305a04619740f))
+
 ## [0.1.0-rc.7](https://github.com/MuXiu1997/vue-use-emitter/compare/v0.1.0-rc.6...v0.1.0-rc.7) (2023-11-27)
 
 
