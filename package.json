@@ -48,7 +48,7 @@
     }
   },
   "dependencies": {
-    "@muxiu1997/vue-easy-di": "^0.1.0-rc.1",
+    "@muxiu1997/vue-easy-di": "^0.1.0-rc.2",
     "mitt": "^3.0.1",
     "vue-demi": "latest"
   },

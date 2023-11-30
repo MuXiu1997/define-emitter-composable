@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@muxiu1997/vue-easy-di':
-    specifier: ^0.1.0-rc.1
-    version: 0.1.0-rc.1(@vue/composition-api@1.7.2)(vue@3.3.7)
+    specifier: ^0.1.0-rc.2
+    version: 0.1.0-rc.2(@vue/composition-api@1.7.2)(vue@3.3.7)
   '@vue/composition-api':
     specifier: ^1.0.0-rc.1
     version: 1.7.2(vue@3.3.7)
@@ -584,8 +584,8 @@ packages:
     resolution: {integrity: sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==}
     dev: true
 
-  /@muxiu1997/vue-easy-di@0.1.0-rc.1(@vue/composition-api@1.7.2)(vue@3.3.7):
-    resolution: {integrity: sha512-ypnLPzAzs3zWVNExEd0e/lStNnJN3y3Y/G+BdQ/ZNcHQtwPfP/3dCJ8UKyHeGn1udMsNw8KR0CF5qGAI/5xXlQ==}
+  /@muxiu1997/vue-easy-di@0.1.0-rc.2(@vue/composition-api@1.7.2)(vue@3.3.7):
+    resolution: {integrity: sha512-gSSAD27uBxe9nWcouo1UBZGMgbihCuURJESWX8Rs7GUwKpRFUoyPcrxXUfWyZljuIAKIEk47Pmw1yAMRzQuD2Q==}
     peerDependencies:
       '@vue/composition-api': ^1.0.0-rc.1
       vue: ^2.0.0 || >=3.0.0
